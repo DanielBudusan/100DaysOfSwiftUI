@@ -11,7 +11,6 @@ struct ContentView: View {
     
     @State private var chosenUnit: Unit = .Millimetre
     @State private var value: Double = 0
-   
     @State private var convertToUnit: Unit = .Inch
     
     enum Unit: Double, CustomStringConvertible, CaseIterable {
