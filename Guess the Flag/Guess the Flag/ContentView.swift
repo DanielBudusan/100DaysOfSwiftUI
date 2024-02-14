@@ -21,6 +21,15 @@ extension View {
     }
 }
 
+struct FlagImage: View {
+    var name: String
+    var body: some View {
+        Image(name)
+            .clipShape(.capsule)
+            .shadow(radius: 5)
+    }
+}
+
 struct ContentView: View {
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
@@ -30,14 +39,34 @@ struct ContentView: View {
     @State private var score = [0,0]
     @State private var endGame = false
     
-    struct FlagImage: View {
-        var name: String
-        
-        var body: some View {
-            Image(name)
-                .clipShape(.capsule)
-                .shadow(radius: 5)
+    var flagBox: some View {
+        VStack(spacing: 15) {
+            VStack {
+                Text("Tap the flag of")
+                    .foregroundColor(.secondary)
+                    .font(.subheadline.weight(.heavy))
+                Text(countries[correctAnswer])
+                    .font(.largeTitle.weight(.bold))
+            }
+            
+            ForEach(0..<3){ number in
+                Button {
+                    flagTapped(number)
+                } label: {
+                     FlagImage(name: countries[number])
+                }
+            }
         }
+        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+        .padding(.vertical, 20)
+        .background(.regularMaterial)
+        .clipShape(.rect(cornerRadius: 20))
+    }
+    
+    var scoreBoard: some View {
+        Text("Correct: \(score[0])     Wrong: \(score[1]) ")
+            .foregroundStyle(.white)
+            .font(.title.bold())
     }
     
     var body: some View {
@@ -50,44 +79,16 @@ struct ContentView: View {
             
             VStack {
                 Spacer()
-                
                 Text("Guess the flag")
                     .titleStyle()
-                
-                VStack(spacing: 15) {
-                    VStack {
-                        Text("Tap the flag of")
-                            .foregroundColor(.secondary)
-                            .font(.subheadline.weight(.heavy))
-                        Text(countries[correctAnswer])
-                            .font(.largeTitle.weight(.bold))
-                    }
-                    
-                    ForEach(0..<3){ number in
-                        Button {
-                            flagTapped(number)
-                        } label: {
-                             FlagImage(name: countries[number])
-                        }
-                    }
-                }
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                .padding(.vertical, 20)
-                .background(.regularMaterial)
-                .clipShape(.rect(cornerRadius: 20))
-                
+                flagBox
                 Spacer()
                 Spacer()
-                
-                Text("Correct: \(score[0])     Wrong: \(score[1]) ")
-                    .foregroundStyle(.white)
-                    .font(.title.bold())
-                
+                scoreBoard
                 Spacer()
             }
             .padding()
         }
-        
         .alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
         } message: {
@@ -113,7 +114,6 @@ struct ContentView: View {
             scoreTitle = "Wrong answer, that was the flag of \(countries[number])"
             score[1] += 1
         }
-        
         showingScore = true
     }
     
