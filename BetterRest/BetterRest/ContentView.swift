@@ -12,10 +12,6 @@ struct ContentView: View {
     @State private var sleepAmount = 8.0
     @State private var coffeAmount = 1
     
-    @State private var alertTitle = ""
-    @State private var alertMessage = ""
-    @State private var shwoingAlert = false
-    
     static var defaultWakeUpTime: Date {
         var components = DateComponents()
         components.hour = 7
@@ -23,41 +19,7 @@ struct ContentView: View {
         return Calendar.current.date(from: components) ?? .now
     }
     
-    var body: some View {
-        NavigationStack {
-            Form {
-                VStack {
-                    Text("When do you want to wake up ?")
-                        .font(.headline)
-                    DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
-                }
-                
-                VStack {
-                    Text("Desired amount of sleep")
-                        .font(.headline)
-                    Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
-                }
-                
-                VStack {
-                    Text("Daily coffee intake")
-                    
-                    Stepper("\(coffeAmount.formatted()) cup(s)", value: $coffeAmount, in: 1...20)
-                }
-            }
-            .navigationTitle("Better Rest")
-            .toolbar {
-                Button("Calculate", action: calculateBedTime)
-            }
-            .alert(alertTitle, isPresented: $shwoingAlert) {
-                Button("OK") {}
-            } message: {
-                Text(alertMessage)
-            }
-        }
-    }
-    
-    func calculateBedTime() {
+    var bedTime: Date {
         do {
             let config = MLModelConfiguration()
             let model = try SleepCalculator(configuration: config)
@@ -68,16 +30,43 @@ struct ContentView: View {
             
             let prediction = try model.prediction(wake: Int64(Double(hour + minute)), estimatedSleep: sleepAmount, coffee: Int64(Double(coffeAmount)))
             let sleepTime = wakeUp - prediction.actualSleep
-            
-            alertTitle = "Your ideal bedtime is:"
-            alertMessage = sleepTime.formatted(date: .omitted, time: .shortened)
-            
+            return sleepTime
+           
         } catch {
-            alertTitle = "Error"
-            alertMessage = "could not calculate bed time"
+            return Date.now
         }
-        
-        shwoingAlert = true
+    }
+    
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("When do you want to wake up ?") {
+                    DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                }
+                .headerProminence(.increased)
+                
+                Section("Desired amount of sleep") {
+                    Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
+                }
+                .headerProminence(.increased)
+                
+                Section("Daily coffee intake") {
+                    Picker("Cups per day", selection: $coffeAmount){
+                        ForEach((1...20), id: \.self){ nr in
+                            Text(nr == 1 ? "1 cup" : "\(nr) cups")
+                        }
+                    }
+                }
+                .headerProminence(.increased)
+                
+                Section("Your bed time should be:") {
+                    Text(bedTime.formatted(date: .omitted, time: .shortened)).font(.system(size: 30)).foregroundStyle(.blue)
+                }
+                .headerProminence(.increased)
+            }
+            .navigationTitle("Better Rest")
+        }
     }
 }
 
