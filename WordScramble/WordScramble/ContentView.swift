@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var errorTitle = ""
     @State private var errorMessage = ""
     @State private var showingError = false
+    @State private var score = 0
     
     
     var body: some View {
@@ -34,6 +35,10 @@ struct ContentView: View {
                         }
                     }
                 }
+                
+                Section {
+                    Text("\(score)")
+                }
             }
             .navigationTitle(rootWord)
             .onSubmit(addNewWord)
@@ -42,6 +47,13 @@ struct ContentView: View {
                 Button("OK") { }
             } message: {
                 Text(errorMessage)
+            }
+            .toolbar {
+                Button("Restart Game") {
+                    startGame()
+                }
+                .buttonStyle(.borderedProminent)
+                
             }
         }
     }
@@ -57,7 +69,7 @@ struct ContentView: View {
         }
         
         guard isPossible(word: answer) else {
-            wordError(title: "Word not possible", message: "You can t sell that word from '\(rootWord)'!")
+            wordError(title: "Word not possible", message: "You can t spell that word from '\(rootWord)'!")
             return
         }
         
@@ -66,6 +78,7 @@ struct ContentView: View {
             return
         }
         
+        score = score + answer.count
         
         withAnimation{
             usedWords.insert(answer, at: 0)
@@ -78,6 +91,7 @@ struct ContentView: View {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy: "\n")
                 rootWord = allWords.randomElement() ?? "word"
+                score = 0
                 return
             }
         }
@@ -90,6 +104,10 @@ struct ContentView: View {
     
     func isPossible(word: String) -> Bool {
         var tempWord = rootWord
+        
+        if word.count < 2 || word == rootWord {
+            return false
+        }
         
         for letter in word {
             if let pos = tempWord.firstIndex(of: letter) {
