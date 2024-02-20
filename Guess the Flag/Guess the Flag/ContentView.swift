@@ -30,6 +30,16 @@ struct FlagImage: View {
     }
 }
 
+extension View {
+    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+}
+
 struct ContentView: View {
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
@@ -38,6 +48,9 @@ struct ContentView: View {
     @State private var scoreTitle = ""
     @State private var score = [0,0]
     @State private var endGame = false
+    @State private var animationAmount = 0.0
+    @State private var animationAmountOpac = 1.0
+    @State private var buttonTapped = 0
     
     var flagBox: some View {
         VStack(spacing: 15) {
@@ -52,15 +65,32 @@ struct ContentView: View {
             ForEach(0..<3){ number in
                 Button {
                     flagTapped(number)
+                    buttonTapped = number
+                    withAnimation {
+                        animationAmount += 360
+                        animationAmountOpac = 0.2
+                    }
+                    
                 } label: {
                      FlagImage(name: countries[number])
+                    
+                }
+                .if(buttonTapped == number) { view in
+                    view.rotation3DEffect(.degrees(animationAmount), axis: (x: 0, y: 1, z: 0))
+                }
+                .if(buttonTapped != number) { view in
+                    view
+                        .opacity(animationAmountOpac)
+                        .scaleEffect(animationAmountOpac)
                 }
             }
+ 
         }
         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
         .padding(.vertical, 20)
         .background(.regularMaterial)
         .clipShape(.rect(cornerRadius: 20))
+        
     }
     
     var scoreBoard: some View {
@@ -123,6 +153,7 @@ struct ContentView: View {
         }
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        animationAmountOpac = 1
     }
     
     func resetGame() {
