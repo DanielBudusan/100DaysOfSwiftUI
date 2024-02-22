@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExpenseItem: Identifiable,Codable {
+struct ExpenseItem: Identifiable, Codable {
     var id = UUID()
     let name: String
     let type: String
@@ -35,28 +35,73 @@ class Expenses {
     }
 }
 
+struct ItemColor: ViewModifier {
+    var amount: Double
+    
+    func body(content: Content) -> some View {
+        if amount < 10 {
+            content
+                .foregroundStyle(Color(red: 89 / 255, green: 181 / 255, blue: 63 / 255))
+        } else if amount < 100 {
+            content
+                .foregroundStyle(Color(red: 63 / 255, green: 79 / 255, blue: 181 / 255))
+        } else {
+            content
+                .foregroundStyle(Color(red: 189 / 255, green: 49 / 255, blue: 77 / 255))
+        }
+    }
+}
+
+extension View {
+    func itemColor(_ amount: Double) -> some View {
+        modifier(ItemColor(amount: amount))
+    }
+}
+
+struct ExpenseItemView: View {
+    var item: ExpenseItem
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(item.name)
+                    .font(.headline)
+                    .itemColor(item.amount)
+                Text(item.type)
+            }
+            Spacer()
+            Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                .itemColor(item.amount)
+        }
+    }
+}
+
 struct ContentView: View {
     @State private var expenses = Expenses()
     
     @State private var showingAddExpense = false
-
+    
     var body: some View {
         NavigationStack {
             List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            
-                            Text(item.type)
-                        }
-                        Spacer()
-                        
-                        Text(item.amount, format: .currency(code: "USD"))
-                    }         
+                Section {
+                    ForEach(expenses.items.filter({$0.type == "Personal"})) { item in
+                            ExpenseItemView(item: item)
+                    }
+                    .onDelete(perform: removeItems)
+                } header: {
+                    Text("Personal").font(.headline)
                 }
-                .onDelete(perform: removeItems)
+                
+                Section {
+                    ForEach(expenses.items.filter({$0.type == "Business"})) { item in
+                            ExpenseItemView(item: item)
+                    }
+                    .onDelete(perform: removeItems)
+                } header: {
+                    Text("Business").font(.headline)
+                }
+                
             }
             .navigationTitle("iExpense")
             .toolbar {
@@ -69,10 +114,11 @@ struct ContentView: View {
             }
         }
     }
+    
     func removeItems(at offsets: IndexSet){
         expenses.items.remove(atOffsets: offsets)
     }
-   
+    
 }
 
 #Preview {

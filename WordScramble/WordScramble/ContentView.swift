@@ -17,7 +17,6 @@ struct ContentView: View {
     @State private var showingError = false
     @State private var score = 0
     
-    
     var body: some View {
         NavigationStack {
             List {
@@ -130,9 +129,8 @@ struct ContentView: View {
         errorTitle = title
         errorMessage = message
         showingError = true
+        
     }
-    
-    
 }
 
 
