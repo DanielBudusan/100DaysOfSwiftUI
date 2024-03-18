@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var users = [User]()
+    @State private var navPath = NavigationPath()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navPath) {
             List(users, id: \.id) { user in
                 HStack {
                     NavigationLink(value: user) {
@@ -28,7 +29,7 @@ struct ContentView: View {
             }
             .listStyle(.plain)
             .navigationDestination(for: User.self) { user in
-                UserView(user: user)
+                UserView(user: user, users: $users, path: $navPath)
             }
             .task {
                 if users.isEmpty {
