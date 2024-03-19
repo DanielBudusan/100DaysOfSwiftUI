@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+//{
+//    AstronautView(astronaut: crewMember.astronaut)
+//} label:
+
 struct CrewMember {
     let role: String
     let astronaut: Astronaut
@@ -16,9 +20,7 @@ struct MissionCrewView: View {
     let crewMember: CrewMember
     
     var body: some View {
-        NavigationLink {
-            AstronautView(astronaut: crewMember.astronaut)
-        } label: {
+        NavigationLink(value: crewMember.astronaut) {
             HStack {
                 Image(crewMember.astronaut.id)
                     .resizable()
@@ -39,6 +41,7 @@ struct MissionCrewView: View {
             }
             .padding(.horizontal)
         }
+        
     }
 }
 
