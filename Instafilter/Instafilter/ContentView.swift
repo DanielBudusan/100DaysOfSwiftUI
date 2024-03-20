@@ -16,10 +16,12 @@ struct ContentView: View {
     @State private var filterIntensity = 0.5
     @State private var selectedItem: PhotosPickerItem?
     @State private var showingFilters = false
+    @State private var filterRadius = 10.0
+    @State private var filterScale = 1.0
     
     @AppStorage("filterCount") var filterCount = 0
     @Environment(\.requestReview) var requestReview
-    
+            
     @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
     let context = CIContext()
 
@@ -47,10 +49,26 @@ struct ContentView: View {
                     Text("Intensity")
                     Slider(value: $filterIntensity)
                         .onChange(of: filterIntensity, applyProcessing)
+                        .disabled(selectedItem == nil)
+                }
+                
+                HStack {
+                    Text("Radius")
+                    Slider(value: $filterRadius, in: 0...30)
+                        .onChange(of: filterRadius, applyProcessing)
+                        .disabled(selectedItem == nil)
+                }
+                
+                HStack {
+                    Text("Scale")
+                    Slider(value: $filterScale, in: 0...2)
+                        .onChange(of: filterScale, applyProcessing)
+                        .disabled(selectedItem == nil)
                 }
                 
                 HStack {
                     Button("Change filter", action: changeFilter)
+                        .disabled(selectedItem == nil)
                     
                     Spacer()
                     
@@ -70,6 +88,9 @@ struct ContentView: View {
                 Button("SepiaTone") { setFilter(CIFilter.sepiaTone() )}
                 Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask() )}
                 Button("Vignette") { setFilter(CIFilter.vignette() )}
+                Button("Gloom") { setFilter(CIFilter.gloom() )}
+                Button("Straighten") { setFilter(CIFilter.straighten() )}
+                Button("XRay") { setFilter(CIFilter.xRay() )}
                 Button("Cancel", role: .cancel) { }
             }
         }
@@ -86,20 +107,25 @@ struct ContentView: View {
             
             let beginImage = CIImage(image: inputImage)
             currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+            applyProcessing()
         }
     }
     
     func applyProcessing() {
         let inputKeys = currentFilter.inputKeys
+        print(inputKeys)
         
         if inputKeys.contains(kCIInputIntensityKey) {
             currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey)
         }
         if inputKeys.contains(kCIInputRadiusKey) {
-            currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey)
+            currentFilter.setValue(filterRadius, forKey: kCIInputRadiusKey)
         }
         if inputKeys.contains(kCIInputScaleKey) {
-            currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
+            currentFilter.setValue(filterScale, forKey: kCIInputScaleKey)
+        }
+        if inputKeys.contains(kCIInputAngleKey) {
+            currentFilter.setValue(filterIntensity, forKey: kCIInputAngleKey)
         }
         
         guard let outputImage = currentFilter.outputImage else { return }
