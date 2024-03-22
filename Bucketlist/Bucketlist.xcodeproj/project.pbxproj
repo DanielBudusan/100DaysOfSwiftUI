@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C03CB402BADB9BC0044937D /* ContentView.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C03CB3F2BADB9BC0044937D /* ContentView.ViewModel.swift */; };
 		9C483B002BAC566000345BC0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C483AFF2BAC566000345BC0 /* Location.swift */; };
 		9C483B022BAC625800345BC0 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C483B012BAC625800345BC0 /* EditView.swift */; };
 		9C483B042BAC679D00345BC0 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C483B032BAC679D00345BC0 /* Result.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C03CB3F2BADB9BC0044937D /* ContentView.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.ViewModel.swift; sourceTree = "<group>"; };
 		9C483AFF2BAC566000345BC0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		9C483B012BAC625800345BC0 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		9C483B032BAC679D00345BC0 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				9C89CECC2BAB05EB00755197 /* BucketlistApp.swift */,
 				9C89CECE2BAB05EB00755197 /* ContentView.swift */,
 				9C483B012BAC625800345BC0 /* EditView.swift */,
+				9C03CB3F2BADB9BC0044937D /* ContentView.ViewModel.swift */,
 				9C483B032BAC679D00345BC0 /* Result.swift */,
 				9C483AFF2BAC566000345BC0 /* Location.swift */,
 				9C89CED02BAB05EC00755197 /* Assets.xcassets */,
@@ -148,6 +151,7 @@
 			files = (
 				9C89CECF2BAB05EB00755197 /* ContentView.swift in Sources */,
 				9C483B042BAC679D00345BC0 /* Result.swift in Sources */,
+				9C03CB402BADB9BC0044937D /* ContentView.ViewModel.swift in Sources */,
 				9C483B002BAC566000345BC0 /* Location.swift in Sources */,
 				9C483B022BAC625800345BC0 /* EditView.swift in Sources */,
 				9C89CECD2BAB05EB00755197 /* BucketlistApp.swift in Sources */,
@@ -286,6 +290,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Bucketlist/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -314,6 +319,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Bucketlist/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
