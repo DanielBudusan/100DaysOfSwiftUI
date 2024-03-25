@@ -5,6 +5,7 @@
 //  Created by Daniel Budusan on 22.03.2024.
 //
 
+import SwiftUI
 import Foundation
 import MapKit
 import LocalAuthentication
@@ -15,7 +16,9 @@ extension ContentView {
     class ViewModel {
         private(set) var locations: [Location]
         var selectedPlace: Location?
-        var isUnlocked = false
+        var isUnlocked = true
+        var showingAlert = false
+        var alertMessage = ""
         
         let savePath = URL.documentsDirectory.appending(path: "SavedPlaces")
         
@@ -53,24 +56,26 @@ extension ContentView {
         }
         
         func authenticate() {
-                   let context = LAContext()
-                   var error: NSError?
-
-                   if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-                       let reason = "Please authenticate yourself to unlock your places."
-
-                       context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                           if success {
-                               Task { @MainActor in
-                                   self.isUnlocked = true
-                               }
-                           } else {
-                               // error
-                           }
-                       }
-                   } else {
-                       // no biometrics
-                   }
-               }
+            let context = LAContext()
+            var error: NSError?
+            
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                let reason = "Please authenticate yourself to unlock your places."
+                
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                    if success {
+                        Task { @MainActor in
+                            self.isUnlocked = true
+                        }
+                    } else {
+                        self.showingAlert = true
+                        self.alertMessage = authenticationError?.localizedDescription ?? ""
+                    }
+                }
+            } else {
+                self.showingAlert = true
+                self.alertMessage = "No biometrics "
+            }
+        }
     }
 }

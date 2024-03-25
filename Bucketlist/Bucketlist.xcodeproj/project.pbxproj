@@ -15,6 +15,7 @@
 		9C89CECF2BAB05EB00755197 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C89CECE2BAB05EB00755197 /* ContentView.swift */; };
 		9C89CED12BAB05EC00755197 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C89CED02BAB05EC00755197 /* Assets.xcassets */; };
 		9C89CED42BAB05EC00755197 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C89CED32BAB05EC00755197 /* Preview Assets.xcassets */; };
+		9CA540342BB1B67B002F1A9D /* EditView.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA540332BB1B67B002F1A9D /* EditView.ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		9C89CECE2BAB05EB00755197 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9C89CED02BAB05EC00755197 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C89CED32BAB05EC00755197 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9CA540332BB1B67B002F1A9D /* EditView.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.ViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 			children = (
 				9C89CECC2BAB05EB00755197 /* BucketlistApp.swift */,
 				9C89CECE2BAB05EB00755197 /* ContentView.swift */,
+				9CA540332BB1B67B002F1A9D /* EditView.ViewModel.swift */,
 				9C483B012BAC625800345BC0 /* EditView.swift */,
 				9C03CB3F2BADB9BC0044937D /* ContentView.ViewModel.swift */,
 				9C483B032BAC679D00345BC0 /* Result.swift */,
@@ -154,6 +157,7 @@
 				9C03CB402BADB9BC0044937D /* ContentView.ViewModel.swift in Sources */,
 				9C483B002BAC566000345BC0 /* Location.swift in Sources */,
 				9C483B022BAC625800345BC0 /* EditView.swift in Sources */,
+				9CA540342BB1B67B002F1A9D /* EditView.ViewModel.swift in Sources */,
 				9C89CECD2BAB05EB00755197 /* BucketlistApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
