@@ -10,7 +10,7 @@ import Foundation
 @Observable
 class PhotoStorage {
     var photos = [Photo]()
-    let url = URL.documentsDirectory.appending(path: "photos")
+    let url = URL.documentsDirectory.appending(path: "Images")
     
     init() {
         do {
@@ -21,8 +21,8 @@ class PhotoStorage {
         }
     }
     
-    func addPhoto(imageData: Data, name: String) {
-        let newPhoto = Photo(name: name, imageData: imageData)
+    func addPhoto(imageData: Data, name: String, latitude: Double, longitude: Double) {
+        let newPhoto = Photo(name: name, imageData: imageData, latitude: latitude, longitude: longitude)
         photos.append(newPhoto)
         savePhotos()
     }

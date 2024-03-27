@@ -11,6 +11,7 @@
 		9C3E217F2BB41FAE00B2817E /* PhotoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3E217E2BB41FAE00B2817E /* PhotoStorage.swift */; };
 		9C3E21812BB41FCC00B2817E /* AddPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3E21802BB41FCC00B2817E /* AddPhotoView.swift */; };
 		9C3E21832BB4385E00B2817E /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3E21822BB4385E00B2817E /* PhotoView.swift */; };
+		9C3E21852BB450DE00B2817E /* LoactionFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3E21842BB450DE00B2817E /* LoactionFetcher.swift */; };
 		9CA540422BB20E6F002F1A9D /* PhotosAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA540412BB20E6F002F1A9D /* PhotosAppApp.swift */; };
 		9CA540442BB20E6F002F1A9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA540432BB20E6F002F1A9D /* ContentView.swift */; };
 		9CA540462BB20E70002F1A9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CA540452BB20E70002F1A9D /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 		9C3E217E2BB41FAE00B2817E /* PhotoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStorage.swift; sourceTree = "<group>"; };
 		9C3E21802BB41FCC00B2817E /* AddPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoView.swift; sourceTree = "<group>"; };
 		9C3E21822BB4385E00B2817E /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		9C3E21842BB450DE00B2817E /* LoactionFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoactionFetcher.swift; sourceTree = "<group>"; };
 		9CA5403E2BB20E6F002F1A9D /* PhotosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CA540412BB20E6F002F1A9D /* PhotosAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosAppApp.swift; sourceTree = "<group>"; };
 		9CA540432BB20E6F002F1A9D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				9CA540432BB20E6F002F1A9D /* ContentView.swift */,
 				9C3E21822BB4385E00B2817E /* PhotoView.swift */,
 				9C3E21802BB41FCC00B2817E /* AddPhotoView.swift */,
+				9C3E21842BB450DE00B2817E /* LoactionFetcher.swift */,
 				9C3E217E2BB41FAE00B2817E /* PhotoStorage.swift */,
 				9C3E217C2BB41F9000B2817E /* Photo.swift */,
 				9CA540452BB20E70002F1A9D /* Assets.xcassets */,
@@ -153,6 +156,7 @@
 				9C3E21812BB41FCC00B2817E /* AddPhotoView.swift in Sources */,
 				9C3E217D2BB41F9000B2817E /* Photo.swift in Sources */,
 				9C3E21832BB4385E00B2817E /* PhotoView.swift in Sources */,
+				9C3E21852BB450DE00B2817E /* LoactionFetcher.swift in Sources */,
 				9CA540442BB20E6F002F1A9D /* ContentView.swift in Sources */,
 				9CA540422BB20E6F002F1A9D /* PhotosAppApp.swift in Sources */,
 			);
@@ -290,6 +294,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"PhotosApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "location for photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -318,6 +323,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"PhotosApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "location for photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

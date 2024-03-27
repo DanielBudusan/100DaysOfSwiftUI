@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import CoreLocation
 
 struct ContentView: View {
     @State private var photoStorage = PhotoStorage()
@@ -14,11 +15,16 @@ struct ContentView: View {
     @State private var showSheet = false
     @State private var imageData = Data()
     
+    let locationFetcher = LocationFetcher()
+    
+    @State private var latitude = 0.0
+    @State private var longitude = 0.0
+    
     var body: some View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach(photoStorage.photos) { photo in
+                    ForEach(photoStorage.photos.sorted()) { photo in
                         NavigationLink(value: photo) {
                             HStack{
                                 Image(uiImage: UIImage(data: photo.imageData) ?? UIImage(systemName: "photo")!)
@@ -43,15 +49,19 @@ struct ContentView: View {
             .onChange(of: imageItem) {
                 if imageItem != nil {
                     pickerItemToData()
+                    getCoordinates()
                     showSheet = true
                 }
             }
             .sheet(isPresented: $showSheet) {
-                AddPhotoView(storage: photoStorage, imageData: imageData)
+                AddPhotoView(storage: photoStorage, imageData: imageData, latitude: latitude, longitude: longitude)
             }
             .navigationTitle("Photo App")
             .navigationDestination(for: Photo.self) { photo in
                 PhotoView(photo: photo)
+            }
+            .onAppear {
+                locationFetcher.start()
             }
         }
     }
@@ -60,6 +70,16 @@ struct ContentView: View {
         Task {
             guard let data = try await imageItem?.loadTransferable(type: Data.self) else { return }
             imageData = data
+        }
+    }
+    
+    func getCoordinates() {
+        if let location = locationFetcher.lastKnownLocation {
+            latitude = location.latitude
+            longitude = location.longitude
+            print("Your location is \(location)")
+        } else {
+            print("Your location is unknown")
         }
     }
     
