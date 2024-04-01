@@ -8,7 +8,6 @@
 import SwiftData
 
 @Model
-
 class Prospect {
     var name: String
     var emailAddress: String
@@ -19,4 +18,5 @@ class Prospect {
         self.emailAddress = emailAddress
         self.isContacted = isContacted
     }
+    
 }
