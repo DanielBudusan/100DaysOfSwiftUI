@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var accessibilityDifferentiateWithoutColor
+    @Environment(\.accessibilityVoiceOverEnabled) var accessibilityVoiceOverEnabled
     @State private var offSet = CGSize.zero
     @State private var isShowingAnswer = false
     let card: Card
@@ -33,14 +34,20 @@ struct CardView: View {
                 .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
             
             VStack {
-                Text(card.prompt)
-                    .font(.largeTitle)
-                    .foregroundStyle(.black)
-                
-                if isShowingAnswer {
-                    Text(card.answer)
-                        .font(.title)
-                        .foregroundStyle(.secondary)
+                if accessibilityVoiceOverEnabled {
+                    Text(isShowingAnswer ? card.answer : card.prompt)
+                        .font(.largeTitle)
+                        .foregroundColor(.black)
+                } else {
+                    Text(card.prompt)
+                        .font(.largeTitle)
+                        .foregroundStyle(.black)
+                    
+                    if isShowingAnswer {
+                        Text(card.answer)
+                            .font(.title)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
             .padding(20)
@@ -50,6 +57,7 @@ struct CardView: View {
         .rotationEffect(.degrees(offSet.width / 5.0))
         .offset(x: offSet.width * 5)
         .opacity(2 - Double(abs(offSet.width / 50)))
+        .accessibilityAddTraits(.isButton)
         .gesture(
             DragGesture()
                 .onChanged { gesture in
@@ -59,14 +67,14 @@ struct CardView: View {
                     if abs(offSet.width) > 100 {
                         removal?()
                     } else {
-                        offSet = .zero
-                    }
-                    
+                        offSet = CGSize(width: 0, height: 0)
+                    }        
                 }
         )
         .onTapGesture {
             isShowingAnswer.toggle()
         }
+        .animation(.default, value: offSet)
     }
 }
 
