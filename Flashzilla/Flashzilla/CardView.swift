@@ -15,9 +15,10 @@ struct CardView: View {
     let card: Card
     
     var removal: (() -> Void)? = nil
+    var addCardBack: (() -> Void)? = nil
     
     var body: some View {
-        ZStack {
+        return ZStack {
             RoundedRectangle(cornerRadius: 25)
                 .fill(
                     accessibilityDifferentiateWithoutColor
@@ -29,7 +30,7 @@ struct CardView: View {
                     accessibilityDifferentiateWithoutColor
                     ? nil
                     : RoundedRectangle(cornerRadius: 25)
-                        .fill(offSet.width > 0 ? .green : .red)
+                        .fill(offSet.width > 0 ? .green : offSet.width < 0 ? .red : .white)
                 )
                 .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
             
@@ -66,9 +67,13 @@ struct CardView: View {
                 .onEnded { _ in
                     if abs(offSet.width) > 100 {
                         removal?()
+                        if offSet.width < 0 {
+                            addCardBack?()
+                            offSet = .zero
+                        }
                     } else {
-                        offSet = CGSize(width: 0, height: 0)
-                    }        
+                        offSet = .zero
+                    }
                 }
         )
         .onTapGesture {
