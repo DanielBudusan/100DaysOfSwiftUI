@@ -20,9 +20,15 @@ struct ResortView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Image(decorative: resort.id)
-                    .resizable()
-                    .scaledToFit()
+                ZStack(alignment: .bottomTrailing) {
+                    Image(decorative: resort.id)
+                        .resizable()
+                        .scaledToFit()
+                    
+                    Text("@" + resort.imageCredit)
+                        .font(.caption)
+                        .padding(5)
+                }
                 
                 HStack {
                     if horizontalSizeClass == .compact && dynamicTypeSize > .large {
@@ -52,8 +58,7 @@ struct ResortView: View {
                             } label: {
                                 facility.icon
                                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                            }
-                            
+                            }  
                         }
                     }
                     .padding(.vertical)
